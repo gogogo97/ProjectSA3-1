@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Food</title>
+    <link th:rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container" layout:fragment="content">
+    <h1>Register Food</h1>
+    <form action="#" th:action="@{/food}" method="POST">
+        <div class="form-group">
+            <label for="inputFoodName">Food Name</label>
+            <input type="input" class="form-control" name="foodName" id="inputFoodName">
+        </div>
+
+        <div class="form-group">
+            <label for="inputFoodPrice">Food Price</label>
+            <input type="input" class="form-control" name="foodPrice" id="inputFoodPrice">
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary">
+        </div>
+    </form>
+
+    <hr>
+    <h1>All Foods</h1>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="food : ${allFoods}">
+            <td th:text="${food.foodName}"></td>
+            <td th:text="${food.foodPrice}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

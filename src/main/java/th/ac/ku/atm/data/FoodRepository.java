@@ -3,6 +3,7 @@ package th.ac.ku.atm.data;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import th.ac.ku.atm.model.Food;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,29 +19,29 @@ public class FoodRepository {
     }
 
     public List<Food> findAll() {
-        String query = "SELECT * FROM food";
+        String query = "SELECT * FROM foodtable";
         List<Food> foods =
                 jdbcTemplate.query(query, new FoodMapper());
         return foods;
 
     }
 
-    public Food findById(int id) {
-        String query = "SELECT * FROM food WHERE id = " + id;
+    public Food findByFoodName(String foodName) {
+        String query = "SELECT * FROM foodtable WHERE foodName = " + foodName;
         Food food =
                 jdbcTemplate.queryForObject(query, new FoodMapper());
         return food;
     }
 
     public void save(Food food) {
-        String query = "INSERT INTO food (id,name,pin) VALUES (?,?,?);";
+        String query = "INSERT INTO foodtable (foodName,foodPrice) VALUES (?,?);";
         Object[] data = new Object[]
-                { food.getId(), food.getName(), food.getPin() };
+                { food.getFoodName(), food.getFoodPrice()};
         jdbcTemplate.update(query, data);
     }
 
-    public void deleteById(int id) {
-        String query = "DELETE FROM food WHERE id = " + id;
+    public void deleteByFoodName(String foodName) {
+        String query = "DELETE FROM foodtable WHERE foodName = " + foodName;
         jdbcTemplate.update(query);
     }
 
@@ -50,10 +51,9 @@ public class FoodRepository {
         public Food mapRow(ResultSet resultSet, int i)
                 throws SQLException {
 
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            String pin = resultSet.getString("pin");
-            Food food = new Food(id, name, pin);
+            String foodName = resultSet.getString("foodName");
+            int foodPrice = resultSet.getInt("foodPrice");
+            Food food = new Food(foodName, foodPrice);
             return food;
         }
     }
